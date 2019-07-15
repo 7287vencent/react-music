@@ -1,0 +1,45 @@
+
+html, body 
+  margin 0
+  padding 0
+  font-size 37.5px
+  position relative
+a
+  text-decoration none
+  color #666
+ul li  
+  list-style none
+
+h1, h2, h3, h4, h5, h6 , p
+  margin 0
+
+// 文字在二行内的省略号
+.textOverflow1
+  // 超出部分显示...
+  text-overflow: ellipsis;
+  overflow: hidden;
+  display: -webkit-box;
+  // 设置为伸缩盒子
+  -webkit-line-clamp: 1;
+  // 这是要显示的行数
+  -webkit-box-orient: vertical;
+  // 设置排版方向为从上到下
+
+// 文字在二行内的省略号
+.textOverflow2 
+  // 超出部分显示...
+  text-overflow: ellipsis;
+  overflow: hidden;
+  display: -webkit-box;
+  // 设置为伸缩盒子
+  -webkit-line-clamp: 2;
+  // 这是要显示的行数
+  -webkit-box-orient: vertical;
+  
+  // 设置排版方向为从上到下
+
+.fixedTop
+  position fixed
+  z-index 99
+  width 100%
+  top 0

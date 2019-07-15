@@ -1,0 +1,161 @@
+@import '../../assets/css/var'
+@import '../../assets/css/fun'
+.play-detail
+  position fixed
+  top 0
+  bottom 0
+  left 0
+  right 0
+  background-color $background-color
+  z-index: 100
+  // font-size rem(20)
+  .play-filter
+    width 100%
+    height 100%
+    position absolute
+    z-index -1
+    background-color #fff
+  .play-bg
+    width 100%
+    height 100%
+    z-index -1
+    position absolute
+    background-size cover
+    background-repeat no-repeat
+    overflow hidden
+    filter blur(2.0rem)
+    opacity 0.8
+  .play-header
+    display flex
+    padding rem(36) rem(54)
+    box-sizing border-box
+    font-size 16px
+    color $playDetail-color 
+    i 
+      flex 0 0 rem(112)
+      font-size rem(62)
+    .header-content
+      flex 1
+      font-size rem(26)
+      h3
+        font-size rem(48)
+  .play-container
+    width 100%
+    // margin-top hrem(160)
+    color #ffffff
+    .container-head
+      width 100%
+      padding hrem(70) rem(48)
+      box-sizing border-box
+      display flex
+      .img 
+        flex-shrink 0
+        width rem(379)
+        height rem(379)
+        position relative
+        img 
+          width 100%
+          height 100%
+          border-radius rem(8)
+        .title
+          font-size rem(28)
+          color #ffffff
+          position absolute
+          top 0
+          right 0
+      .container-right
+        font-size 16px
+        margin-left rem(56)
+        h2 
+          font-size hrem(50)
+          color #ffffff
+        .creator
+          width 100%
+          display flex
+          align-items center
+          margin hrem(35) 0 hrem(58)
+          img 
+            width rem(80)
+            height rem(80)
+            border-radius 50%
+          span 
+            font-size hrem(34)
+        .description
+          display flex
+          align-items center
+          span
+            font-size hrem(34)
+            padding-right rem(20)
+            box-sizing border-box
+    .container-select
+      font-size rem(34)
+      display flex
+      align-items center
+      .select-item
+        width 25%
+        text-align center
+        i 
+          font-size rem(60)
+  .detail-container
+    font-size rem(48)
+    background-color #fff
+    height 100%
+    border-radius rem(54)
+    margin-top hrem(52)
+    .detail-head
+      display flex
+      align-items center
+      font-size hrem(44)
+      padding hrem(44) rem(44)
+      position relative
+      i  
+        font-size rem(62)  
+      .all-num
+        padding-left rem(46)    
+        span
+          color rgb(153, 153, 153)
+      .collection
+        height hrem(117)
+        line-height hrem(117)
+        width rem(318)
+        position absolute
+        top hrem(18)
+        right rem(16)
+        background-color red
+        border-radius rem(50)
+        display flex
+        align-items center
+        justify-content center
+        letter-spacing 1px
+        color #ffffff
+        span
+          font-size hrem(40)
+    .detail-content
+      width 100%
+      height hrem(1625)
+      // height 100%
+      .scroll-wrapper
+        width 100%
+        .item-wrapper
+          display flex
+          margin-bottom hrem(80)
+          span, i
+            flex 0 0 rem(152)
+            text-align center
+            color rgb(153, 153, 153)
+          .content
+            flex 1
+            h3
+              height hrem(64)
+              line-height hrem(64)
+              font-size hrem(48)
+            .author
+              font-size hrem(36)
+              color rgb(132, 132, 132)
+
+.scroll-container
+  width 100%
+  height 100%
+  .scroll-container-wrapper
+    padding-top hrem(130)
+    box-sizing border-box
