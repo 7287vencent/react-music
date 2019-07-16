@@ -1,9 +1,11 @@
 import React, { Component } from 'react'
+// import { Route } from 'react-router-dom'
 import { getPlayDetail } from '../../api/index'
 import './playdetail.styl'
 import Scroll from '../../common/scroll/Scroll'
 import { createTracks } from './../../module/tracks'
 import { toFix } from '../../util/index'
+import { formatSongs, createSong } from '../../module/song'
 export class PlayDetail extends Component {
   state = {
     playlist: {},
@@ -14,28 +16,42 @@ export class PlayDetail extends Component {
     const { match } = this.props
     getPlayDetail(match.params.id)
       .then(res => {
-        console.log('res', res)
+        // console.log('res', res)
         this.setState({
           playlist: res.playlist,
           creator: res.playlist.creator,
           tracks: res.playlist.tracks
         })
+        this.props.changePlayList(formatSongs(res.playlist.tracks))
       })
   }
   handleBack = () => {
-    console.log(this.props)
+    // console.log(this.props)
     this.props.history.goBack()
+  }
+  toPlayPage = (id, key) => {
+    // console.log('id',this.state.tracks[key])
+    let song = createSong(this.state.tracks[key])
+    // console.log('song',song)
+    this.props.changeSong(song)
+    this.props.changePlayId(key)
+    // console.log(this.props.history)
+    this.props.history.push({
+      pathname: `/play/${id}`
+    })
   }
   renderTicks = () => {
     const { tracks } = this.state
     return tracks.map((item, i) => {
       const track = createTracks(item)
       return (
-        <div className="item-wrapper" key={i}>
+        <div className="item-wrapper" key={i}
+        onClick={this.toPlayPage.bind(this,item.id, i)}
+        >
           <span>{i + 1}</span>
           <div className="content">
-            <h3>{track.name}</h3>
-            <div className="author">
+            <h3 className="textOverflow1">{track.name}</h3>
+            <div className="author textOverflow1">
               {track.author}-{track.name}
             </div>
           </div>
@@ -49,10 +65,13 @@ export class PlayDetail extends Component {
     const { playlist, creator, tracks } = this.state
     // console.log(tracks.length)
     return (
+      // 歌单详情
       <div className="play-detail">
+        {/* 蒙尘 和 背景图片 */}
         <div className="play-filter"></div>
         <div className="play-bg" style={{ backgroundImage: `url(${playlist.coverImgUrl})` }}>
         </div>
+        {/* 固定的头部 */}
         <div className="play-header fixedTop">
           <i onClick={this.handleBack} className="iconfont">&#xe641;</i>
           <div className="header-content">
@@ -62,9 +81,11 @@ export class PlayDetail extends Component {
           <i className="iconfont">&#xe600;</i>
           <i className="iconfont">&#xe615;</i>
         </div>
+        {/* 滑动的页面 */}
         <div className="scroll-container">
           <Scroll onScroll={() => { }}>
             <div className="scroll-container-wrapper">
+              {/* 歌单信息 */}
               <div className="play-container">
                 <div className="container-head">
                   <div className="img">
@@ -103,6 +124,7 @@ export class PlayDetail extends Component {
                   </div>
                 </div>
               </div>
+              {/* 歌曲列表 */}
               <div className="detail-container">
                 <div className="detail-head">
                   <i className="iconfont">&#xe61e;</i>

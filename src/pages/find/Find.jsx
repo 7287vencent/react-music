@@ -6,7 +6,7 @@ import 'swiper/dist/css/swiper.css'
 import './find.styl'
 import { SelectDetail } from '../../module/select'
 import { toFix } from '../../util/index'
-import PlayDetail from '../../components/playdetail/PlayDetail'
+import PlayDetail from '../../container/PlayDetail'
 export class Find extends Component {
   state = {
     bannersList: [],

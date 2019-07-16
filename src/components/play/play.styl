@@ -1,0 +1,98 @@
+@import '../../assets/css/fun'
+@import '../../assets/css/var'
+.player-page
+  position fixed
+  top 0
+  bottom 0
+  left 0
+  right 0
+  z-index 99
+  .play-filter
+    width 100%
+    height 100%
+    position absolute
+    z-index -1
+    background-color #000
+  .play-bg
+    width 100%
+    height 100%
+    z-index -1
+    position absolute
+    background-size cover
+    background-repeat no-repeat
+    overflow hidden
+    filter blur(2.0rem)
+    opacity 0.8
+  .header
+    padding-left rem(52)
+    padding-right rem(40)
+    padding-top rem(40)
+    box-sizing border-box
+    display flex
+    align-items center
+    color #fff 
+    i
+      flex 0 0 rem(116)
+    .head-title
+      height 100%
+      flex 1 
+      h3
+        font-size rem(50)
+      div 
+        font-size rem(38)
+        color rgb(180, 179, 170)
+  .container-img
+    width 100%
+    text-align center
+    .bg-img
+      width rem(785)
+      height rem(785)
+      position relative
+      margin 0 auto
+      transform translateY(50%)
+      background-size contain
+      // background-repeat no-repect
+      display flex
+      align-items center
+      justify-content center
+      .img
+        width rem(513)
+        height rem(513)
+        border-radius 50%
+        &.rotate
+          animation: rotate 15s linear infinite
+  .foot-btn
+    width 100%
+    height hrem(300)
+    display flex
+    align-items center
+    justify-content space-around
+    padding 0 rem(48)
+    box-sizing border-box
+    position fixed
+    bottom 0
+    .btn-item
+      img
+        width rem(160)
+        height rem(160)
+      .play-img
+        width rem(260)
+        height rem(260)
+  .play-process
+    width 100%
+    position absolute
+    bottom hrem(330)
+    display flex
+    align-items center  
+    padding 0 rem(48)
+    box-sizing border-box
+    font-size rem(40)
+    span 
+      flex 0 0 rem(100)
+      text-align center
+      color #fff
+
+@keyframes rotate {
+  from { transform: rotate(0deg)}
+  to { transform: rotate(360deg)}
+}

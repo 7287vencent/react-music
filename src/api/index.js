@@ -36,6 +36,10 @@ function fetchGet(url ,param = '') {
 export const getBanner = fetchGet('/banner')
 export const getPlayList = fetchGet('/personalized')
 export function getPlayDetail(id){
-  console.log(id)
+  // console.log(id)
   return fetchGet('/playlist/detail', {id: id})
+}
+
+export function getSongDetail(id) {
+  return fetchGet('/song/url',{id: id})
 }
