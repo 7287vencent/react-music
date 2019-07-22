@@ -1,9 +1,9 @@
 import React, { Suspense, lazy}from 'react';
 import './App.styl';
 import { BrowserRouter as Router, Route, Switch, Redirect, NavLink } from 'react-router-dom'
+import { connect } from 'react-redux'
 import Loading from './loading/Loading'
 import Play from '../container/Play'
-import MusicPlayer from '../components/play/MusicPlayer'
 // 引入页面 路由 组件
 const UserDetail = lazy(() => import('../pages/userDetail/UserDetail'))
 const User = lazy(() => import('../pages/user/User.jsx'))
@@ -20,7 +20,8 @@ const Search = lazy(() => import('../pages/search/Search'))
 //   })W
 // }
 // getbanners()
-function App() {
+class App extends React.Component {
+  render() {
   return (
     <Router>
       <div className="App">
@@ -65,15 +66,18 @@ function App() {
               <Route path="/friend" component={Friend}></Route>
               <Route path="/video" component={Video}></Route>
               <Route path="/search" component={Search}></Route>
-              <Route path="/play/:id" component={Play}></Route>
+              {/* <Route path="/play/:id"></Route> */}
               <Redirect path="/" to="/find"></Redirect>
             </Switch>
           </Suspense>
         </div>
-        {/* <MusicPlayer> */}
+        {this.props.showStatus && <Play></Play>}
       </div>
     </Router>
   );
+  }
 }
-
-export default App;
+const mapStateToProps = state => ({
+  showStatus: state.showStatus
+})
+export default connect(mapStateToProps)(App);

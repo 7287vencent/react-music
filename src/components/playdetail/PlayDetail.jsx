@@ -10,7 +10,8 @@ export class PlayDetail extends Component {
   state = {
     playlist: {},
     creator: {},
-    tracks: []
+    tracks: [],
+    activeId: ''
   }
   componentDidMount() {
     const { match } = this.props
@@ -22,7 +23,6 @@ export class PlayDetail extends Component {
           creator: res.playlist.creator,
           tracks: res.playlist.tracks
         })
-        this.props.changePlayList(formatSongs(res.playlist.tracks))
       })
   }
   handleBack = () => {
@@ -31,22 +31,32 @@ export class PlayDetail extends Component {
   }
   toPlayPage = (id, key) => {
     // console.log('id',this.state.tracks[key])
+    this.setState({
+      activeId: id
+    })
     let song = createSong(this.state.tracks[key])
     // console.log('song',song)
     this.props.changeSong(song)
     this.props.changePlayId(key)
+    this.props.changePlayList(formatSongs(this.state.tracks))
+    this.props.showPlayer(true)
+    // console.log(111)
     // console.log(this.props.history)
-    this.props.history.push({
-      pathname: `/play/${id}`
-    })
+    // this.props.history.push({
+    //   pathname: `/play/${id}`
+    // })
   }
   renderTicks = () => {
-    const { tracks } = this.state
+    const { tracks, activeId } = this.state
     return tracks.map((item, i) => {
       const track = createTracks(item)
       return (
-        <div className="item-wrapper" key={i}
-        onClick={this.toPlayPage.bind(this,item.id, i)}
+        <div className={`item-wrapper ${item.id === activeId ? 'on': ''}`}
+        // className={}
+        key={i}
+        onClick={() => {
+          this.toPlayPage(item.id, i)
+        }}
         >
           <span>{i + 1}</span>
           <div className="content">
@@ -83,7 +93,7 @@ export class PlayDetail extends Component {
         </div>
         {/* 滑动的页面 */}
         <div className="scroll-container">
-          <Scroll onScroll={() => { }}>
+          {/* <Scroll onScroll={() => { }}> */}
             <div className="scroll-container-wrapper">
               {/* 歌单信息 */}
               <div className="play-container">
@@ -147,7 +157,7 @@ export class PlayDetail extends Component {
                 </div>
               </div>
             </div>
-          </Scroll>
+          {/* </Scroll> */}
         </div>
       </div>
     )

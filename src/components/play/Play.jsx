@@ -3,7 +3,7 @@ import { getSongDetail } from '../../api/index'
 import Process from '../process/Process'
 import './play.styl'
 import { fetchTime } from '../../util/index'
-
+import MiniPlayer from './miniPlayer'
 export class Play extends Component {
   constructor(props) {
     super(props)
@@ -21,7 +21,8 @@ export class Play extends Component {
       playStatus: false,  //播放状态
       currentPlayMode: 0,
       process: 0,
-      disableDrag: true
+      disableDrag: true,
+      isShow: false
     }
     // 虚拟DOM
     this.audioDOM = null
@@ -31,13 +32,25 @@ export class Play extends Component {
   }
   // 使用 will mount 获取 播放的歌曲信息
   componentWillMount() {
-    const { match } = this.props
-    const id = match.params.id
+    // console.log('WillMount')
+    // const { match } = this.props
+    // const id = match.params.id
+    const id = this.props.currentSongs.id
     this.getSongUrl(id)
     this.currentIndex = this.props.songId
   }
+  // componentWillReceiveProps() {
+  //   const id = this.props.currentSongs.id
+  //   this.getSongUrl(id)
+  //   this.currentIndex = this.props.songId
+  //   console.log('DidMount')
+  // }
+  // componentDidUpdate() {
+  //   console.log('DidUpdate')
+  // }
   // 获取歌曲的 url 信息
   getSongUrl(id) {
+    // console.log('id', id)
     getSongDetail(id)
       .then(res => {
         // console.log('playres', res.data)
@@ -48,7 +61,15 @@ export class Play extends Component {
         this.playOrPause()
       })
   }
-  componentDidMount() {
+  bindEvents() {
+    this.audioDOM.addEventListener('canplay', () => {
+      this.setState({
+        playStatus: false
+      });
+      this.playOrPause()
+      console.log('canplay')
+    })
+    console.log('bindEvents')
     // 监听时间的变化
     this.audioDOM.addEventListener('timeupdate', () => {
       if(this.state.playStatus === true && this.audioDOM) {
@@ -76,11 +97,19 @@ export class Play extends Component {
       }
     }, false)
   }
+  componentDidMount() {
+    this.bindEvents() 
+  }
   /**
    * 修改播放的链接
    */
   handlePlayUrl = () => {
-    // console.log(this.currentSong)
+    console.log(this.currentSong)
+    if(this.currentSong.url == null) {
+      this.handleNext()
+      return 
+    }
+
     this.audioDOM.src = this.currentSong.url
     this.setState({
       playStatus: false,
@@ -91,6 +120,7 @@ export class Play extends Component {
    * 播放或暂停
    */
   playOrPause = () => {
+    console.log('playOrPause')
     if (this.state.playStatus === false) { 
       console.log(this.audioDOM.src)
       this.audioDOM.play()
@@ -101,6 +131,7 @@ export class Play extends Component {
       })
     } else {
       this.audioDOM.pause()
+      console.log('false')
       // 取消动画
       this.stopImgRotate()
       this.setState({
@@ -125,6 +156,12 @@ export class Play extends Component {
   stopImgRotate = () => {
     this.singImgDom.style["webkitAnimationPlayState"] = "paused";
     this.singImgDom.style["animationPlayState"] = "paused";
+  }
+  /**
+   * 显示播放器
+   */
+  showPlayer = () => {
+    this.props.showMusicPlayer(true);
   }
   /**
    * 下一首歌
@@ -169,7 +206,7 @@ export class Play extends Component {
   /**返回上一个页面 */
   handleBack = () => {
     // console.log(this.props)
-    this.props.history.goBack()
+    // this.props.history.goBack()
   }
   render() {
     let { currentSongs } = this.props
@@ -181,11 +218,11 @@ export class Play extends Component {
     //   name: "杨花落尽子规啼",
     //   singer: "G2er/黄诗扶/国风堂"
     // }
-    const { playStatus, process, disableDrag, currentTime } = this.state
+    const { playStatus, process, disableDrag, currentTime, isShow } = this.state
     return (
       <div className="player-page">
         <audio ref={(el) => { this.audioDOM = el; }}></audio>
-        <div className="player">
+        <div className="player" style={{display: isShow ? 'block': 'none'}}>
           {/* 蒙尘 和 背景图片 */}
           <div className="play-filter"></div>
           <div className="play-bg" style={{ backgroundImage: `url(${currentSongs.image})` }}>
@@ -239,6 +276,12 @@ export class Play extends Component {
             </div>
           </div>
         </div>
+        
+        <MiniPlayer song={this.currentSong} progress={this.state.playProgress}
+          playOrPause={this.playOrPause}
+          next={this.next}
+          showStatus={this.props.showStatus}
+          showMiniPlayer={this.showPlayer} />
       </div>
     )
   }

@@ -1,6 +1,6 @@
 import { connect } from 'react-redux'
 import PlayDetail from '../components/playdetail/PlayDetail'
-import { changePlayList, changeSong, changePlayId } from '../redux/action'
+import { changePlayList, changeSong, changePlayId, showPlayer } from '../redux/action'
 // 映射 Redux 全局 state 到组件的 props 上
 // const mapStateToProps = (state) => ({
 //   showStatus: state.showStatus,
@@ -10,6 +10,7 @@ import { changePlayList, changeSong, changePlayId } from '../redux/action'
 
 const mapDispathToProps = (dispatch) => ({
   changePlayList: (playList) => {
+    // console.log('changePlayList')
     dispatch(changePlayList(playList))
   },
   changeSong: (song) => {
@@ -17,6 +18,9 @@ const mapDispathToProps = (dispatch) => ({
   },
   changePlayId: (id) => {
     dispatch(changePlayId(id))
+  },
+  showPlayer: (show) => {
+    dispatch(showPlayer(show))
   }
 })
 
