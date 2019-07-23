@@ -2,11 +2,10 @@ import { connect } from 'react-redux'
 import PlayDetail from '../components/playdetail/PlayDetail'
 import { changePlayList, changeSong, changePlayId, showPlayer } from '../redux/action'
 // 映射 Redux 全局 state 到组件的 props 上
-// const mapStateToProps = (state) => ({
-//   showStatus: state.showStatus,
-//   currentSongs: state.song,
-//   playSongs: state.song
-// })
+const mapStateToProps = (state) => ({
+  playSongs: state.playList,
+  songId: state.songId
+})
 
 const mapDispathToProps = (dispatch) => ({
   changePlayList: (playList) => {
@@ -24,4 +23,4 @@ const mapDispathToProps = (dispatch) => ({
   }
 })
 
-export default connect('',mapDispathToProps)(PlayDetail)
+export default connect(mapStateToProps,mapDispathToProps)(PlayDetail)

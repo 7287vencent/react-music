@@ -1,4 +1,5 @@
 import React, { Component } from 'react'
+import ReactDOM from 'react-dom'
 import { getSongDetail } from '../../api/index'
 import Process from '../process/Process'
 import './play.styl'
@@ -30,24 +31,6 @@ export class Play extends Component {
     // 旋转图片的 ref
     this.singImgDom = null
   }
-  // 使用 will mount 获取 播放的歌曲信息
-  componentWillMount() {
-    // console.log('WillMount')
-    // const { match } = this.props
-    // const id = match.params.id
-    const id = this.props.currentSongs.id
-    this.getSongUrl(id)
-    this.currentIndex = this.props.songId
-  }
-  // componentWillReceiveProps() {
-  //   const id = this.props.currentSongs.id
-  //   this.getSongUrl(id)
-  //   this.currentIndex = this.props.songId
-  //   console.log('DidMount')
-  // }
-  // componentDidUpdate() {
-  //   console.log('DidUpdate')
-  // }
   // 获取歌曲的 url 信息
   getSongUrl(id) {
     // console.log('id', id)
@@ -62,13 +45,8 @@ export class Play extends Component {
       })
   }
   bindEvents() {
-    this.audioDOM.addEventListener('canplay', () => {
-      this.setState({
-        playStatus: false
-      });
-      this.playOrPause()
-      console.log('canplay')
-    })
+    // 监听当 播放的 src 改变时触发的
+    this.audioDOM.addEventListener('canplay', () => {})
     console.log('bindEvents')
     // 监听时间的变化
     this.audioDOM.addEventListener('timeupdate', () => {
@@ -98,7 +76,21 @@ export class Play extends Component {
     }, false)
   }
   componentDidMount() {
+    const id = this.props.currentSongs.id
+    this.getSongUrl(id)
+    this.currentIndex = this.props.songId
+    this.audioDOM = this.refs.audioDOM
     this.bindEvents() 
+  }
+  // 当 props 发生了改变 点击的时候
+  componentWillReceiveProps(nextProps) {
+    // console.log('nextProps',nextProps)
+    const { currentSongs, songId } = nextProps
+    // console.log('this.props', this.props)
+    const id = currentSongs.id
+    this.getSongUrl(id)
+    this.currentIndex = songId 
+    console.log('componentWillReceiveProps')
   }
   /**
    * 修改播放的链接
@@ -120,9 +112,9 @@ export class Play extends Component {
    * 播放或暂停
    */
   playOrPause = () => {
-    console.log('playOrPause')
+    // console.log('playOrPause')
     if (this.state.playStatus === false) { 
-      console.log(this.audioDOM.src)
+      // console.log(this.audioDOM.src)
       this.audioDOM.play()
       // 缺少控制旋转的函数
       this.startImgRotate()
@@ -131,7 +123,7 @@ export class Play extends Component {
       })
     } else {
       this.audioDOM.pause()
-      console.log('false')
+      // console.log('false')
       // 取消动画
       this.stopImgRotate()
       this.setState({
@@ -180,7 +172,8 @@ export class Play extends Component {
       this.props.changeCurrentSong(this.props.playSongs[currentIndex])
       this.props.changePlayId(currentIndex)
       this.currentIndex = currentIndex
-      this.getSongUrl(this.props.playSongs[currentIndex].id)
+      // this.getSongUrl(this.props.playSongs[currentIndex].id)
+      console.log('handleNext')
     }
   }
   /**
@@ -200,7 +193,7 @@ export class Play extends Component {
       this.props.changeCurrentSong(this.props.playSongs[currentIndex])
       this.props.changePlayId(currentIndex)
       this.currentIndex = currentIndex
-      this.getSongUrl(this.props.playSongs[currentIndex].id)
+      // this.getSongUrl(this.props.playSongs[currentIndex].id)
     }
   }
   /**返回上一个页面 */
@@ -221,7 +214,12 @@ export class Play extends Component {
     const { playStatus, process, disableDrag, currentTime, isShow } = this.state
     return (
       <div className="player-page">
-        <audio ref={(el) => { this.audioDOM = el; }}></audio>
+        {/* <audio ref="audioDOM"
+        src={`https://music.163.com/song/media/outer/url?id=${
+          currentSongs.id
+        }.mp3`}
+        ></audio> */}
+        <audio ref='audioDOM'></audio>
         <div className="player" style={{display: isShow ? 'block': 'none'}}>
           {/* 蒙尘 和 背景图片 */}
           <div className="play-filter"></div>

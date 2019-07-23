@@ -8,13 +8,13 @@ axios.defaults.baseURL = URL
 axios.interceptors.response.use((res) => {
   // 请求成功但是 状态码错误
   if (res.data.code !== HTTP_OK) {
-    window.alert('网络错误')
+    // window.alert('网络错误')
     return Promise.reject(res)
   }
   return res
 }, (error) => {
   // 请求未成功
-  window.alert('网络错误')
+  // window.alert('网络错误')
   return Promise.reject(error)
 })
 

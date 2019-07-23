@@ -10,8 +10,7 @@ export class PlayDetail extends Component {
   state = {
     playlist: {},
     creator: {},
-    tracks: [],
-    activeId: ''
+    tracks: []
   }
   componentDidMount() {
     const { match } = this.props
@@ -31,27 +30,27 @@ export class PlayDetail extends Component {
   }
   toPlayPage = (id, key) => {
     // console.log('id',this.state.tracks[key])
-    this.setState({
-      activeId: id
-    })
     let song = createSong(this.state.tracks[key])
     // console.log('song',song)
     this.props.changeSong(song)
     this.props.changePlayId(key)
     this.props.changePlayList(formatSongs(this.state.tracks))
     this.props.showPlayer(true)
-    // console.log(111)
+    console.log(111)
     // console.log(this.props.history)
     // this.props.history.push({
     //   pathname: `/play/${id}`
     // })
   }
   renderTicks = () => {
-    const { tracks, activeId } = this.state
+    const { tracks } = this.state
+    const { songId, playSongs } = this.props
+    const activeId = playSongs[songId] || {id: ''}
+    // console.log('activeId',activeId)
     return tracks.map((item, i) => {
       const track = createTracks(item)
       return (
-        <div className={`item-wrapper ${item.id === activeId ? 'on': ''}`}
+        <div className={`item-wrapper ${item.id === activeId.id ? 'on': ''}`}
         // className={}
         key={i}
         onClick={() => {
