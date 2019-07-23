@@ -6,30 +6,31 @@ import "./miniPlayer.styl"
 class MiniPlayer extends React.Component {
   handlePlayOrPause = (e) => {
     e.stopPropagation();
-    if (this.props.song.url) {
-      // 调用父组件的播放或暂停方法
-      this.props.playOrPause();
-    }
-
-  }
-  handleNext = (e) => {
-    e.stopPropagation();
-
-    if (this.props.song.url) {
-      // 调用父组件播放下一首方法
-      this.props.next();
-    }
+    // 调用父组件的播放或暂停方法
+    console.log('pause')
+    this.props.playOrPause();
   }
   handleShow = () => {
-    if (this.props.song.url) {
-      this.props.showMiniPlayer();
-    }
+    this.props.handleShow()
   }
   render() {
-    let song = this.props.song;
+    const {song, playStatus, miniShow} = this.props;
     return (
-    <div className="main">
-      qwer
+    <div className="mini-player" style={{display: miniShow ?'flex' : 'none'}}>
+      {/* 歌曲图片 */}
+      <img onClick={this.handleShow} className="mini-image" src={song.image} alt=""/>
+      <div className="mini-title">
+        <h3>{song.name}</h3>
+      </div>
+      {/* 图片 */}
+      <div onClick={this.handlePlayOrPause}>
+      {
+        playStatus ?
+        <i className="iconfont icon">&#xe680;</i> :
+        <i className="iconfont icon">&#xe61e;</i>
+      }
+      </div>
+      <i className="iconfont icon">&#xe76f;</i>
     </div>
     );
   }

@@ -149,12 +149,7 @@ export class Play extends Component {
     this.singImgDom.style["webkitAnimationPlayState"] = "paused";
     this.singImgDom.style["animationPlayState"] = "paused";
   }
-  /**
-   * 显示播放器
-   */
-  showPlayer = () => {
-    this.props.showMusicPlayer(true);
-  }
+
   /**
    * 下一首歌
    */
@@ -196,11 +191,6 @@ export class Play extends Component {
       // this.getSongUrl(this.props.playSongs[currentIndex].id)
     }
   }
-  /**返回上一个页面 */
-  handleBack = () => {
-    // console.log(this.props)
-    // this.props.history.goBack()
-  }
   render() {
     let { currentSongs } = this.props
     // currentSongs = {
@@ -227,7 +217,7 @@ export class Play extends Component {
           </div>
           {/* 播放头部 */}
           <div className="header">
-            <i onClick={this.handleBack} className="iconfont">&#xe641;</i>
+            <i onClick={this.handleShow} className="iconfont">&#xe641;</i>
             <span className="head-title">
               <h3>{currentSongs.name}</h3>
               <div>{currentSongs.singer} <i className="iconfont">&#xe67f;</i></div>
@@ -275,13 +265,21 @@ export class Play extends Component {
           </div>
         </div>
         
-        <MiniPlayer song={this.currentSong} progress={this.state.playProgress}
-          playOrPause={this.playOrPause}
-          next={this.next}
-          showStatus={this.props.showStatus}
-          showMiniPlayer={this.showPlayer} />
+        <MiniPlayer 
+        song={currentSongs} 
+        miniShow={!isShow}
+        handleShow={this.handleShow}
+        progress={this.state.playProgress}
+        playOrPause={this.playOrPause}
+        playStatus={playStatus}/>
       </div>
     )
+  }
+  handleShow = () => {
+    const isShow = !this.state.isShow
+    this.setState({
+      isShow
+    })
   }
   /**
    * 进度条有关的函数
